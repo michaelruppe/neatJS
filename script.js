@@ -1,9 +1,11 @@
+let innovationID = 0;
+
+
 function setup () {
   // let canvas = createCanvas(500,500);
   // canvas.parent('sketch-holder');
   // background(127);
 
-  let innovationNumber = 0;
 
   // Build a test case: Figure 2 of the paper **********************************
   let genome1 = new Genome();
@@ -23,7 +25,7 @@ function setup () {
   for (let inNode of inputNodes) {
     for (let outNode of outputNodes) {
       genome1.addConnectionGene(
-        new ConnectionGene(inNode.getID(), outNode.getID(), random(-1,1), true, innovationNumber++)
+        new ConnectionGene(inNode.getID(), outNode.getID(), random(-1,1), true, innovationID++)
       );
     }
   }
