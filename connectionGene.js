@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Stores the genetic information for a connection within a Genome
+ ******************************************************************************/
+
 class ConnectionGene {
   constructor(inNode, outNode, weight, expressed, innovation) {
     if( inNode instanceof ConnectionGene ) {
