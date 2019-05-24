@@ -3,8 +3,6 @@
  * Michael Ruppe
  * May 2019
  *
- * michaelruppe.com
- *
  * This is a javascript class constructed according to:
  * Evolving Neural Networks through Augmenting Topologies -
  * Kenneth O. Stanley & Risto Miikkulainen. MIT Press Journals
@@ -28,7 +26,15 @@ class Genome {
     return this.connections;
   }
 
-  getNodeGenes() {
+  getNodeGenes( type ) {
+    // If type == 'INPUT' or 'HIDDEN' or 'OUTPUT' then return an array of those nodes only. Else, returns all nodes
+    if ( type ) {
+      let nodes = this.nodes.filter(obj => {
+        return obj.type === type;
+      });
+      return nodes;
+    }
+    // else return all nodes
     return this.nodes;
   }
 

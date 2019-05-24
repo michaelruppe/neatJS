@@ -15,13 +15,9 @@ function setup () {
   genome1.addNodeGene( new NodeGene('OUTPUT', genome1.getNodeGenes().length) );
   // genome1.addNodeGene( new NodeGene('OUTPUT', genome1.getNodeGenes().length) );
 
-  // Filter input and output nodes into separate arrays
-  let inputNodes = genome1.nodes.filter(obj => {
-    return obj.type === 'INPUT'
-  });
-  let outputNodes = genome1.nodes.filter(obj => {
-    return obj.type === 'OUTPUT'
-  });
+  let inputNodes = genome1.getNodeGenes('INPUT');
+
+  let outputNodes = genome1.getNodeGenes('OUTPUT');
 
   // connect all inputs to all outputs
   for (let inNode of inputNodes) {
