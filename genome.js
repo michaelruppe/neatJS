@@ -58,20 +58,33 @@ class Genome {
   }
 
   // Crossover assumes parentA is the most fit
-  crossover(parentA, parentB) {
+  static crossover(parentA, parentB) {
     let child = new Genome();
     // Create child with same nodes as more-fit parent
     for (let Anode of parentA.getNodeGenes()){ // TODO: examine this loop - may not copy the right things
       child.addNodeGene(Anode.copy());
     }
-    for (let Aconn of parentA.getConnectionGenes()){
-      // Compare innovation numbers between parents, looking for matches to crossover
-      if (parentB.getConnectionGenes().contains(Aconn)) {
-        // TODO: things went pretty confusing at 14m15s
 
+    // Check every gene in A to see if it's present in B
+    for (let Aconn of parentA.getConnectionGenes()){
+      if (parentB.getConnectionGenes().contains(Aconn)) {
+        // Found matching gene in A & B
+        if (random() < 0.5) {
+          let childConGene = Aconn.copy();
+        } else {
+          let childConGene = parentB.getConnectionGene.copy();
+          childConGene.innovation = Aconn.getInnovation(); // Set the innovation to the (assumed) more-fit parent
+          // This is the original line from the video. Not very clear... not sure
+          // let childConGene = parent2.getConnectionGenes().get(parent1Node.getinnovation()).copy();
+          child.addConnectionGene(childConGene);
+        }
+
+      } else {
+        // Disjoint or excess gene - always included from more-fit parent
+        child.addConnectionGene( Aconn.copy() );
       }
     }
-
+    return child;
   }
 
   addConnectionMutation(innov) {
