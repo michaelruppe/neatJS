@@ -13,6 +13,16 @@
  ******************************************************************************/
 
 // TODO: Implement *GLOBAL* innovation number. IN should be unique for *every* structural innovation in the whole system of individual genomes
+class Innovation {
+  constructor() {
+    this.current = 0;
+  }
+
+  generate() {
+    return this.current++;
+  }
+}
+
 
 class Genome {
   constructor() {
@@ -50,7 +60,7 @@ class Genome {
   // Crossover assumes parentA is the most fit
   crossover(parentA, parentB) {
     let child = new Genome();
-
+    // Create child with same nodes as more-fit parent
     for (let Anode of parentA.getNodeGenes()){ // TODO: examine this loop - may not copy the right things
       child.addNodeGene(Anode.copy());
     }
@@ -64,7 +74,7 @@ class Genome {
 
   }
 
-  addConnectionMutation() {
+  addConnectionMutation(innov) {
     // Select two unique nodes
     let node1 = new NodeGene( random(this.nodes) );
     let node2 = new NodeGene( random(this.nodes) );
@@ -104,23 +114,24 @@ class Genome {
           reversed ? node1.getID() : node2.getID(),
           random(-1,1),
           true,
-          0)
+          innov.generate())
         );
     }
   }
 
-  addNodeMutation() {
+  addNodeMutation(innov) {
     // Select a random connection, deactivate and prepare for node insertion
     // let con = new ConnectionGene( random(this.connections) );
     let con = random(this.connections);
     con.disable();
-    let inNode = con.getInNode();
-    let outNode = con.getOutNode();
+    let inNodeID = con.getInNode();
+    let outNodeID = con.getOutNode();
 
     // Create the new node and associated connections
+    // inNode -> newNode -> outNode
     let newNode = new NodeGene("HIDDEN", this.nodes.length);
-    let inToNew = new ConnectionGene(inNode, newNode.getID(), 1.0, true, 0);
-    let newToOut = new ConnectionGene(newNode.getID(), outNode, con.getWeight(), true, 0);
+    let inToNew = new ConnectionGene(inNodeID, newNode.getID(), 1.0, true, innov.generate());
+    let newToOut = new ConnectionGene(newNode.getID(), outNodeID, con.getWeight(), true, innov.generate());
 
     // Update genome lists
     this.nodes.push(newNode);

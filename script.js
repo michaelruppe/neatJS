@@ -1,4 +1,4 @@
-let innovationID = 0;
+let innovation;
 
 
 function setup () {
@@ -9,6 +9,7 @@ function setup () {
 
   // Build a test case: Figure 2 of the paper **********************************
   let genome1 = new Genome();
+  innovation = new Innovation();
 
   // Add 3 input nodes, 1 output node
   for (let i = 0; i < 3; i++) {
@@ -18,21 +19,20 @@ function setup () {
   // genome1.addNodeGene( new NodeGene('OUTPUT', genome1.getNodeGenes().length) );
 
   let inputNodes = genome1.getNodeGenes('INPUT');
-
   let outputNodes = genome1.getNodeGenes('OUTPUT');
 
   // connect all inputs to all outputs
   for (let inNode of inputNodes) {
     for (let outNode of outputNodes) {
       genome1.addConnectionGene(
-        new ConnectionGene(inNode.getID(), outNode.getID(), random(-1,1), true, innovationID++)
+        new ConnectionGene(inNode.getID(), outNode.getID(), random(-1,1), true, innovation.generate())
       );
     }
   }
 
-  // add a node mutation
-  genome1.addNodeMutation();
-  genome1.addConnectionMutation();
+  // add a node mutation. Make a random connection mutation
+  genome1.addNodeMutation(innovation);
+  genome1.addConnectionMutation(innovation);
 
   // enumerate hidden nodes
   let hiddenNodes = genome1.nodes.filter(obj => {
