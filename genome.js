@@ -12,7 +12,8 @@
  * equations from the paper.
  ******************************************************************************/
 
-// TODO: Implement *GLOBAL* innovation number. IN should be unique for *every* structural innovation in the whole system of individual genomes
+const PROBABILITY_PERTURBING = 0.9;
+
 class Innovation {
   constructor() {
     this.current = 0;
@@ -152,5 +153,17 @@ class Genome {
     this.connections.push(newToOut);
 
   }
+
+  // Mutate connection weights (Section 4.1 Parameter Settings)
+  mutation() {
+    for (let con of this.connections) {
+      if (random() < PROBABILITY_PERTURBING) {
+        con.setWeight(con.getWeight() * random(-2,2)); // Multiply weight by a number -2 to 2
+      } else {
+        con.setWeight(random(-2,2)); // Assign a new random weight
+      }
+    }
+  }
+
 
 }
