@@ -1,12 +1,12 @@
 function renderNetwork(genome) {
-  let inputNodes = genome.getNodeGenes('INPUT');
-  let outputNodes = genome.getNodeGenes('OUTPUT');
-  let hiddenNodes = genome.getNodeGenes('HIDDEN');
+  const inputNodes = genome.getNodeGenes('INPUT');
+  const outputNodes = genome.getNodeGenes('OUTPUT');
+  const hiddenNodes = genome.getNodeGenes('HIDDEN');
 
   // =========== Nodes ===========
-  let bound = width/2;
-  let edge = width/6;
-  let dispNodes = [];
+  const bound = width/2;
+  const edge = width/6;
+  const dispNodes = [];
 
   // INPUT
   for (let i = 0; i < inputNodes.length; i++) {
@@ -25,9 +25,7 @@ function renderNetwork(genome) {
     dispNodes.push({'node' : hiddenNodes[i], 'x':random(width/3, 2*width/3), 'y':(0.5+i)*height/hiddenNodes.length });
   }
 
-  console.log(dispNodes);
-
-  // NODES
+  // Render nodes
   for (let node of dispNodes) {
     ellipse(node.x, node.y, 16,16);
     textAlign(CENTER, CENTER)
@@ -35,33 +33,39 @@ function renderNetwork(genome) {
   }
 
   // =========== Connections ===========
+  // Check all connections and render those that are expressed == true
   for (let con of genome.getConnectionGenes()) {
     if (con.expressed) {
-      let p1 = con.inNode;
-      let p2 = con.outNode;
+      const p1 = con.inNode;
+      const p2 = con.outNode;
 
       // find in, out nodes for this connection
-      let inNode = dispNodes.filter(obj => {
+      const inNode = dispNodes.filter(obj => {
         return obj.node.id === p1;
       });
-      let outNode = dispNodes.filter(obj => {
+      const outNode = dispNodes.filter(obj => {
         return obj.node.id === p2;
       });
 
-      // render the connection
-      let x1 = inNode[0].x;
-      let y1 = inNode[0].y;
-      let x2 = outNode[0].x;
-      let y2 = outNode[0].y;
-      var angle = atan2(y1 - y2, x1 - x2); //gets the angle of the line
+      // Points at centre of each node
+      const x1 = inNode[0].x;
+      const y1 = inNode[0].y;
+      const x2 = outNode[0].x;
+      const y2 = outNode[0].y;
 
+      // Don't draw full length, otherwise arrowheads crowd eachother.
+      const x11 = x1 + 0.05 * (x2 - x1);
+      const y11 = y1 + 0.05 * (y2 - y1);
+      const x22 = x1 + 0.90 * (x2 - x1);
+      const y22 = y1 + 0.90 * (y2 - y1);
 
-      line(x1,y1,x2,y2);
-      // this code is to make the arrow point
-      let offset = 10;
+      line(x11,y11,x22,y22);
+      // this code is to make the arrow head
+      const offset = 10; // Arrow-head size
+      const angle = atan2(y1 - y2, x1 - x2); //gets the angle of the line
       noFill();
-      push() //start new drawing state
-      translate(x2, y2); //translates to the destination vertex
+      push()
+      translate(x22, y22); //translate to the destination vertex
       rotate(angle-HALF_PI); //rotates the arrow point
       triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
       pop();

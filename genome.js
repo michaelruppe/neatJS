@@ -67,7 +67,7 @@ class Genome {
 
     // Check every gene in A to see if it's present in B
     for (let Aconn of parentA.getConnectionGenes()){
-      if (parentB.getConnectionGenes().contains(Aconn)) {
+      if (parentB.getConnectionGenes().includes(Aconn)) {
         // Found matching gene in A & B
         if (random() < 0.5) {
           let childConGene = Aconn.copy();

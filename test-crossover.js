@@ -12,7 +12,7 @@ function setup () {
   let genome2 = new Genome();
   innovation = new Innovation();
 
-  // PARENT 1
+  // CREATE PARENT 1
   // Add 3 input nodes, 1 output node
   for (let i = 0; i < 3; i++) {
     genome1.addNodeGene( new NodeGene('INPUT', i+1) );
@@ -26,7 +26,7 @@ function setup () {
   genome1.addConnectionGene( new ConnectionGene(5, 4, random(-1,1), true, 5 ) );
   genome1.addConnectionGene( new ConnectionGene(1, 5, random(-1,1), true, 8 ) );
 
-  // PARENT 2
+  // CREATE PARENT 2
   for (let i = 0; i < 3; i++) {
     genome2.addNodeGene( new NodeGene('INPUT', i+1) );
   }
@@ -43,16 +43,10 @@ function setup () {
   genome2.addConnectionGene( new ConnectionGene(3, 5, random(-1,1), true, 9 ) );
   genome2.addConnectionGene( new ConnectionGene(1, 6, random(-1,1), true, 10 ) );
 
-  // connect all inputs to all outputs
-  // for (let inNode of inputNodes) {
-  //   for (let outNode of outputNodes) {
-  //     genome1.addConnectionGene(
-  //       new ConnectionGene(inNode.getID(), outNode.getID(), random(-1,1), true, innovation.generate())
-  //     );
-  //   }
-  // }
 
-  renderNetwork(genome2);
+  // CROSSOVER
+  let child = Genome.crossover(genome2, genome1);
+  renderNetwork(child);
 
 
   noLoop();
