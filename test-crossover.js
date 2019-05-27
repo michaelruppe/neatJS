@@ -30,9 +30,9 @@ function setup () {
   for (let i = 0; i < 3; i++) {
     genome2.addNodeGene( new NodeGene('INPUT', i+1) );
   }
-  genome2.addNodeGene( new NodeGene('OUTPUT', genome1.getNodeGenes().length+1) );
-  genome2.addNodeGene( new NodeGene('HIDDEN', genome1.getNodeGenes().length+1) );
-  genome2.addNodeGene( new NodeGene('HIDDEN', genome1.getNodeGenes().length+1) );
+  genome2.addNodeGene( new NodeGene('OUTPUT', genome2.getNodeGenes().length+1) );
+  genome2.addNodeGene( new NodeGene('HIDDEN', genome2.getNodeGenes().length+1) );
+  genome2.addNodeGene( new NodeGene('HIDDEN', genome2.getNodeGenes().length+1) );
   genome2.addConnectionGene( new ConnectionGene(1, 4, random(-1,1), true, 1 ) );
   genome2.addConnectionGene( new ConnectionGene(2, 4, random(-1,1), false, 2 ) );
   genome2.addConnectionGene( new ConnectionGene(3, 4, random(-1,1), true, 3 ) );
@@ -52,7 +52,7 @@ function setup () {
   //   }
   // }
 
-  renderNetwork(genome1);
+  renderNetwork(genome2);
 
 
   noLoop();
