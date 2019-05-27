@@ -33,6 +33,10 @@ class ConnectionGene {
     return this.weight;
   }
 
+  setWeight(weight) {
+    this.weight = weight;
+  }
+
   getExpressed() {
     return this.expressed;
   }
