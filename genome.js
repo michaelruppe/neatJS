@@ -13,6 +13,9 @@
  ******************************************************************************/
 
 const PROBABILITY_PERTURBING = 0.9;
+const IMPORTANCE_EXCESS = 0.5;
+const IMPORTANCE_DISJOINT = 0.5;
+const IMPORTANCE_WEIGHT = 0.5;
 
 class Innovation {
   constructor() {
@@ -86,6 +89,23 @@ class Genome {
       }
     }
     return child;
+  }
+
+  // Finds the compatability distance between two genomes. Equation (1)
+  static compatabilityDistance(parentA, parentB) {
+    let E = numExcess(parentA, parentB); // number of excess genes
+    let D = numDisjoint(parentA, parentB); // number of disjoint genes
+    let N = max(parentA.getConnectionGenes().length, parentB.getConnectionGenes().length); // number of genes in the larger genome
+
+    let d = (IMPORTANCE_EXCESS * E + IMPORTANCE_DISJOINT * D)/N + (IMPORTANCE_WEIGHT * W);
+  }
+
+  static numExcess(parentA, parentB) {
+    return 0;
+  }
+
+  static numDisjoint(parentA, parentB) {
+    return 0;
   }
 
   addConnectionMutation(innov) {
@@ -164,6 +184,5 @@ class Genome {
       }
     }
   }
-
 
 }

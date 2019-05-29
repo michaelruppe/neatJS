@@ -69,6 +69,12 @@ function renderNetwork(genome) {
       rotate(angle-HALF_PI); //rotates the arrow point
       triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
       pop();
+
+      //connection weight
+      //midpoint
+      stroke(0); strokeWeight(1);
+      text(nf(con.getWeight(), 1,4), x11+(x22-x11)/2, y11+(y22-y11)/2);
+
     }
   }
 
