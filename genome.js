@@ -93,11 +93,31 @@ class Genome {
 
   // Finds the compatability distance between two genomes. Equation (1)
   static compatabilityDistance(parentA, parentB) {
-    let E = numExcess(parentA, parentB); // number of excess genes
-    let D = numDisjoint(parentA, parentB); // number of disjoint genes
+    let dif = Genome.difference(parentA, parentB);
+    let E = dif.excess; // number of excess genes
+    let D = dif.disjoint; // number of disjoint genes
+    let W = Genome.averageWeightDifferences(parentA, parentB);
     let N = max(parentA.getConnectionGenes().length, parentB.getConnectionGenes().length); // number of genes in the larger genome
+    if (N < 20) N = 1;
 
-    let d = (IMPORTANCE_EXCESS * E + IMPORTANCE_DISJOINT * D)/N + (IMPORTANCE_WEIGHT * W);
+    return (IMPORTANCE_EXCESS * E + IMPORTANCE_DISJOINT * D)/N + (IMPORTANCE_WEIGHT * W);
+  }
+
+  static averageWeightDifferences(parentA, parentB) {
+    let diff = 0;
+    let n = 0;
+
+    for (let conA of parentA.getConnectionGenes() ) {
+      for (let conB of parentB.getConnectionGenes() ) {
+        if (conA.getInnovation() == conB.getInnovation()){
+          diff += abs(conA.getWeight() - conB.getWeight());
+          n++;
+          break;
+        }
+      }
+    }
+
+    return diff/n;
   }
 
   static difference(parentA, parentB) {

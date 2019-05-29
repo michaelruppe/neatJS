@@ -45,7 +45,13 @@ function setup () {
 
 
   let diff = Genome.difference(genome1, genome2);
-  console.log(diff);
+  console.log("Difference: ", diff);
+
+  let W = Genome.averageWeightDifferences(genome1, genome2);
+  console.log("W", W);
+
+  let distance = Genome.compatabilityDistance(genome1, genome2);
+  console.log("Compatability Distance: ", distance);
 
 
   noLoop();
