@@ -108,6 +108,15 @@ class Genome {
     return 0;
   }
 
+  getMaxInnovation() {
+    let max = 0;
+    for (let con of this.connections) {
+      let inno = con.getInnovation();
+      inno > max ? max = inno : max = max;
+    }
+    return max;
+  }
+
   addConnectionMutation(innov) {
     // Select two unique nodes
     let node1 = new NodeGene( random(this.nodes) );
