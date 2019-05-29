@@ -100,12 +100,38 @@ class Genome {
     let d = (IMPORTANCE_EXCESS * E + IMPORTANCE_DISJOINT * D)/N + (IMPORTANCE_WEIGHT * W);
   }
 
-  static numExcess(parentA, parentB) {
-    return 0;
-  }
+  static difference(parentA, parentB) {
+    // Return a count of how many disjoint and excess genes exist for two parents
+    // Refer to Figure 4
 
-  static numDisjoint(parentA, parentB) {
-    return 0;
+    let disjoint = 0;
+    let excess = 0;
+    let maxA = parentA.getMaxInnovation();
+    let maxB = parentB.getMaxInnovation();
+    let end = Math.min(maxA, maxB);
+
+    // Create an array of innovation IDs
+    let arrA = parentA.getConnectionGenes().map(a => a.getInnovation());
+    let arrB = parentB.getConnectionGenes().map(a => a.getInnovation());
+
+    // Filter for genes that appear in ONLY one parent (Disjoint AND Excess genes)
+    let diffA = arrA.filter(x => !arrB.includes(x));
+    let diffB = arrB.filter(x => !arrA.includes(x));
+    let diff = diffA.concat(diffB);
+
+    // categorise gene-differences into Disjoint and Excess
+    for (let gene of diff) {
+      if (gene <= end) {
+        disjoint++;
+      } else {
+        excess++;
+      }
+    }
+
+    return {
+      "disjoint" : disjoint,
+      "excess" : excess
+    };
   }
 
   getMaxInnovation() {
